@@ -38,19 +38,17 @@ func main() {
 	//Definitions of variables
 	var oldIP string
 
-	// Check presence of data file iplist.data if is not present create it
-	// Open and read iplist.csv put in memory the last IP
-	f, err := os.OpenFile("iplist.csv", os.O_RDWR|os.O_CREATE, 0664)
+	// Check presence of data file iplist.data if is not present create it and Open file
+	datacsv, err := os.OpenFile("iplist.csv", os.O_APPEND|os.O_CREATE, 0664)
 	if err != nil {
 		log.Println(err)
 	}
-
-	defer f.Close()
-
-	r := csv.NewReader(f)
+	defer datacsv.Close()
+	//Put the last IP data on the oldIP variable
+	listcsv := csv.NewReader(datacsv)
 
 	for {
-		record, err := r.Read()
+		record, err := listcsv.Read()
 
 		if err == io.EOF {
 			break
@@ -60,7 +58,6 @@ func main() {
 			log.Fatal(err)
 		}
 
-		//fmt.Println(record[0])
 		oldIP = record[0]
 	}
 	fmt.Println("The old IP was: ", oldIP)
@@ -76,6 +73,10 @@ func main() {
 		fmt.Println("The IPs are equal")
 	} else {
 		fmt.Println("The IPs are different")
+		//Append the new IP and data on the iplist.csv
+
+		writeNewIP := csv.NewWriter(datacsv)
+
 		//send an email and affix the new IP on the iplist.data if there are a new IP
 	}
 
