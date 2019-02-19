@@ -29,6 +29,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"time"
 
 	"github.com/rdegges/go-ipify"
 )
@@ -74,8 +75,9 @@ func main() {
 	} else {
 		fmt.Println("The IPs are different")
 		//Append the new IP and data on the iplist.csv
-
-		writeNewIP := csv.NewWriter(datacsv)
+		timeNow := time.Now()
+		fmt.Println(timeNow)
+		//writeNewIP := csv.NewWriter(datacsv)
 
 		//send an email and affix the new IP on the iplist.data if there are a new IP
 	}
