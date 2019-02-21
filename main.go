@@ -41,12 +41,10 @@ func main() {
 	var data2append [][]string
 	//var newline string
 	// Check presence of data file iplist.data if is not present create it and Open file
-	// datacsv, err := os.OpenFile("iplist.csv", os.O_APPEND|os.O_CREATE, 0664) os.ModeAppend
 	datacsv, err := os.OpenFile("iplist.csv", os.O_CREATE|os.O_APPEND|os.O_RDWR, 0664)
 	if err != nil {
 		log.Println(err)
 	}
-	//defer datacsv.Close()
 	//Put the last IP data on the oldIP variable
 	listcsv := csv.NewReader(datacsv)
 
@@ -77,14 +75,13 @@ func main() {
 	} else {
 		fmt.Println("The IPs are different, I add the new IP to the list")
 		timeNow := time.Now()
-		result := (timeNow.String())
-		//data2append := (newIP + ", " + result)
+		resultTime := (timeNow.String())
 		//Append the new IP and data on the iplist.csv
-		data2append = append(data2append, []string{newIP, result})
+		data2append = append(data2append, []string{newIP, resultTime})
 		writeData := csv.NewWriter(datacsv)
 		writeData.WriteAll(data2append)
 		if err := writeData.Error(); err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
 		//send an email and affix the new IP on the iplist.data if there are a new IP
 	}
