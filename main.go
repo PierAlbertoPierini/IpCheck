@@ -62,7 +62,7 @@ func main() {
 		oldIP = record[0]
 	}
 	fmt.Println("The old IP was: ", oldIP)
-	//Check current IP
+	//Check current IP with ipify service
 	newIP, err := ipify.GetIp()
 	if err != nil {
 		fmt.Println("Couldn't get my IP address:", err)
@@ -76,14 +76,15 @@ func main() {
 		fmt.Println("The IPs are different, I add the new IP to the list")
 		timeNow := time.Now()
 		resultTime := (timeNow.String())
-		//Append the new IP and data on the iplist.csv
+		//Append the new IP and data on the iplist.csv file
 		data2append = append(data2append, []string{newIP, resultTime})
 		writeData := csv.NewWriter(datacsv)
 		writeData.WriteAll(data2append)
 		if err := writeData.Error(); err != nil {
 			log.Println(err)
 		}
-		//send an email and affix the new IP on the iplist.data if there are a new IP
+		//send an email
+		
 	}
 
 	//wait 5 minutes and restart the loop
